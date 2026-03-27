@@ -1,32 +1,6 @@
-import java.util.*;
-import java.util.stream.*;
-
-// -------------------- BOGIE CLASS --------------------
-
-class Bogie {
-    private String name;
-    private int capacity;
-
-    public Bogie(String name, int capacity) {
-        this.name = name;
-        this.capacity = capacity;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void display() {
-        System.out.println("Bogie: " + name + " | Capacity: " + capacity);
-    }
-}
-
-
-// -------------------- MAIN APPLICATION --------------------
+import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class TrainConsistManagement {
 
@@ -34,27 +8,46 @@ public class TrainConsistManagement {
 
         System.out.println("=== Train Consist Management App ===");
 
-        // Step 1: Create bogie list (reuse from UC9)
-        List<Bogie> bogies = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
 
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 60));
-        bogies.add(new Bogie("First Class", 24));
-        bogies.add(new Bogie("Sleeper", 70));
+        // Step 1: Take user input
+        System.out.print("Enter Train ID: ");
+        String trainId = sc.nextLine();
 
-        // Step 2: Calculate total seating capacity using Stream
-        int totalSeats = bogies.stream()
-                .map(b -> b.getCapacity())     // Extract capacity
-                .reduce(0, Integer::sum);      // Aggregate (sum)
+        System.out.print("Enter Cargo Code: ");
+        String cargoCode = sc.nextLine();
 
-        // Step 3: Display total capacity
-        System.out.println("\n--- Total Seating Capacity ---\n");
-        System.out.println("Total Seats in Train: " + totalSeats);
+        // Step 2: Define regex patterns
+        String trainPatternStr = "TRN-\\d{4}";
+        String cargoPatternStr = "PET-[A-Z]{2}";
 
-        // Step 4: Show original list unchanged
-        System.out.println("\n--- Original Bogie List ---\n");
-        for (Bogie b : bogies) {
-            b.display();
+        // Step 3: Compile patterns
+        Pattern trainPattern = Pattern.compile(trainPatternStr);
+        Pattern cargoPattern = Pattern.compile(cargoPatternStr);
+
+        // Step 4: Create matchers
+        Matcher trainMatcher = trainPattern.matcher(trainId);
+        Matcher cargoMatcher = cargoPattern.matcher(cargoCode);
+
+        // Step 5: Validate using matches()
+        boolean isTrainValid = trainMatcher.matches();
+        boolean isCargoValid = cargoMatcher.matches();
+
+        // Step 6: Display results
+        System.out.println("\n--- Validation Results ---\n");
+
+        if (isTrainValid) {
+            System.out.println("Train ID is VALID");
+        } else {
+            System.out.println("Train ID is INVALID");
         }
+
+        if (isCargoValid) {
+            System.out.println("Cargo Code is VALID");
+        } else {
+            System.out.println("Cargo Code is INVALID");
+        }
+
+        sc.close();
     }
 }
