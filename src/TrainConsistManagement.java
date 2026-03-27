@@ -1,101 +1,35 @@
-import java.util.*;
-
-// -------------------- RESERVATION (REQUEST OBJECT) --------------------
-
-class Reservation {
-    private String guestName;
-    private String roomType;
-
-    public Reservation(String guestName, String roomType) {
-        this.guestName = guestName;
-        this.roomType = roomType;
-    }
-
-    public String getGuestName() {
-        return guestName;
-    }
-
-    public String getRoomType() {
-        return roomType;
-    }
-
-    public void displayRequest() {
-        System.out.println("Guest: " + guestName + " | Requested Room: " + roomType);
-    }
-}
-
-
-// -------------------- BOOKING QUEUE --------------------
-
-class BookingRequestQueue {
-
-    private Queue<Reservation> queue;
-
-    public BookingRequestQueue() {
-        queue = new LinkedList<>();
-    }
-
-    // Add booking request (enqueue)
-    public void addRequest(Reservation reservation) {
-        queue.offer(reservation);
-        System.out.println("Request added for " + reservation.getGuestName());
-    }
-
-    // View all requests (without removing)
-    public void displayQueue() {
-        System.out.println("\n--- Booking Request Queue (FIFO Order) ---\n");
-
-        if (queue.isEmpty()) {
-            System.out.println("No pending requests.");
-            return;
-        }
-
-        for (Reservation r : queue) {
-            r.displayRequest();
-        }
-    }
-
-    // Peek next request (without removing)
-    public Reservation peekNext() {
-        return queue.peek();
-    }
-}
-
-
-// -------------------- MAIN APPLICATION --------------------
+import java.util.HashMap;
+import java.util.Map;
 
 public class TrainConsistManagement {
 
     public static void main(String[] args) {
 
-        System.out.println("=== Book My Stay App ===");
+        System.out.println("=== Train Consist Management App ===");
 
-        // Initialize booking queue
-        BookingRequestQueue bookingQueue = new BookingRequestQueue();
+        // Step 1: Create HashMap for bogie → capacity mapping
+        Map<String, Integer> bogieCapacityMap = new HashMap<>();
 
-        // Simulate incoming booking requests
-        Reservation r1 = new Reservation("Alice", "Single Room");
-        Reservation r2 = new Reservation("Bob", "Double Room");
-        Reservation r3 = new Reservation("Charlie", "Suite Room");
+        // Step 2: Insert bogie capacities (Passenger bogies)
+        bogieCapacityMap.put("Sleeper", 72);
+        bogieCapacityMap.put("AC Chair", 60);
+        bogieCapacityMap.put("First Class", 24);
 
-        // Add requests (FIFO order preserved)
-        bookingQueue.addRequest(r1);
-        bookingQueue.addRequest(r2);
-        bookingQueue.addRequest(r3);
+        // Optional: Goods bogies (load capacity example)
+        bogieCapacityMap.put("Rectangular Goods", 100);
+        bogieCapacityMap.put("Cylindrical Goods", 80);
 
-        // Display queue
-        bookingQueue.displayQueue();
+        // Step 3: Display all bogies with capacities
+        System.out.println("\n--- Bogie Capacity Details ---\n");
 
-        // Peek next request
-        System.out.println("\nNext request to process:");
-        Reservation next = bookingQueue.peekNext();
-        if (next != null) {
-            next.displayRequest();
+        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
+            System.out.println("Bogie: " + entry.getKey() +
+                    " | Capacity: " + entry.getValue());
         }
 
-        // NOTE:
-        // ❌ No inventory update
-        // ❌ No room allocation
-        // ✅ Only request intake + ordering
+        // Step 4: Example lookup (fast access)
+        System.out.println("\nCapacity lookup for Sleeper:");
+        int sleeperCapacity = bogieCapacityMap.get("Sleeper");
+        System.out.println("Sleeper Capacity: " + sleeperCapacity);
     }
 }
