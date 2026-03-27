@@ -1,5 +1,31 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
+// -------------------- BOGIE CLASS --------------------
+
+class Bogie {
+    private String name;
+    private int capacity;
+
+    public Bogie(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void display() {
+        System.out.println("Bogie: " + name + " | Capacity: " + capacity);
+    }
+}
+
+
+// -------------------- MAIN APPLICATION --------------------
 
 public class TrainConsistManagement {
 
@@ -7,29 +33,30 @@ public class TrainConsistManagement {
 
         System.out.println("=== Train Consist Management App ===");
 
-        // Step 1: Create HashMap for bogie → capacity mapping
-        Map<String, Integer> bogieCapacityMap = new HashMap<>();
+        // Step 1: Create list of passenger bogies
+        List<Bogie> bogies = new ArrayList<>();
 
-        // Step 2: Insert bogie capacities (Passenger bogies)
-        bogieCapacityMap.put("Sleeper", 72);
-        bogieCapacityMap.put("AC Chair", 60);
-        bogieCapacityMap.put("First Class", 24);
+        bogies.add(new Bogie("Sleeper", 72));
+        bogies.add(new Bogie("AC Chair", 60));
+        bogies.add(new Bogie("First Class", 24));
 
-        // Optional: Goods bogies (load capacity example)
-        bogieCapacityMap.put("Rectangular Goods", 100);
-        bogieCapacityMap.put("Cylindrical Goods", 80);
+        // Step 2: Sort bogies by capacity (ascending order)
+        bogies.sort(Comparator.comparingInt(Bogie::getCapacity));
 
-        // Step 3: Display all bogies with capacities
-        System.out.println("\n--- Bogie Capacity Details ---\n");
+        // Step 3: Display sorted bogies
+        System.out.println("\n--- Bogies Sorted by Capacity (Ascending) ---\n");
 
-        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
-            System.out.println("Bogie: " + entry.getKey() +
-                    " | Capacity: " + entry.getValue());
+        for (Bogie b : bogies) {
+            b.display();
         }
 
-        // Step 4: Example lookup (fast access)
-        System.out.println("\nCapacity lookup for Sleeper:");
-        int sleeperCapacity = bogieCapacityMap.get("Sleeper");
-        System.out.println("Sleeper Capacity: " + sleeperCapacity);
+        // Step 4: Optional → Sort in descending order
+        bogies.sort(Comparator.comparingInt(Bogie::getCapacity).reversed());
+
+        System.out.println("\n--- Bogies Sorted by Capacity (Descending) ---\n");
+
+        for (Bogie b : bogies) {
+            b.display();
+        }
     }
 }
