@@ -1,20 +1,31 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class TrainConsistManagement {
 
-    // Method to perform Linear Search
-    public static boolean linearSearch(String[] bogieIds, String key) {
+    // Method to perform Binary Search
+    public static boolean binarySearch(String[] bogieIds, String key) {
 
-        // Traverse array sequentially
-        for (int i = 0; i < bogieIds.length; i++) {
+        int low = 0;
+        int high = bogieIds.length - 1;
 
-            // Compare using equals()
-            if (bogieIds[i].equals(key)) {
-                return true; // Match found → early termination
+        while (low <= high) {
+
+            int mid = (low + high) / 2;
+
+            // Compare using compareTo()
+            int result = bogieIds[mid].compareTo(key);
+
+            if (result == 0) {
+                return true; // Found
+            } else if (result < 0) {
+                low = mid + 1; // Search right half
+            } else {
+                high = mid - 1; // Search left half
             }
         }
 
-        return false; // No match found after full traversal
+        return false; // Not found
     }
 
     public static void main(String[] args) {
@@ -33,12 +44,23 @@ public class TrainConsistManagement {
             bogieIds[i] = scanner.nextLine();
         }
 
+        // Handle empty array case
+        if (bogieIds.length == 0) {
+            System.out.println("No bogies available. Search cannot be performed.");
+            return;
+        }
+
+        // Sort before Binary Search (important precondition)
+        Arrays.sort(bogieIds);
+
+        System.out.println("Sorted Bogie IDs: " + Arrays.toString(bogieIds));
+
         // Input search key
         System.out.print("Enter Bogie ID to search: ");
         String searchKey = scanner.nextLine();
 
-        // Perform search
-        boolean found = linearSearch(bogieIds, searchKey);
+        // Perform Binary Search
+        boolean found = binarySearch(bogieIds, searchKey);
 
         // Display result
         if (found) {
