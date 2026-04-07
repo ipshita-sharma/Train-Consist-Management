@@ -1,60 +1,30 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class TrainConsistManagement {
-
-    // Method to perform Bubble Sort
-    public static void bubbleSort(int[] capacities) {
-        int n = capacities.length;
-
-        // Outer loop for passes
-        for (int i = 0; i < n - 1; i++) {
-
-            // Inner loop for comparison
-            for (int j = 0; j < n - i - 1; j++) {
-
-                // Compare adjacent elements
-                if (capacities[j] > capacities[j + 1]) {
-
-                    // Swap if out of order
-                    int temp = capacities[j];
-                    capacities[j] = capacities[j + 1];
-                    capacities[j + 1] = temp;
-                }
-            }
-        }
-    }
-
-    // Method to display array
-    public static void displayArray(int[] capacities) {
-        for (int capacity : capacities) {
-            System.out.print(capacity + " ");
-        }
-        System.out.println();
-    }
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter number of passenger bogies: ");
+        System.out.print("Enter number of bogie types: ");
         int n = scanner.nextInt();
+        scanner.nextLine(); // consume newline
 
-        int[] capacities = new int[n];
+        String[] bogieNames = new String[n];
 
-        // Input capacities
-        System.out.println("Enter capacities of passenger bogies:");
+        // Input bogie names
+        System.out.println("Enter bogie type names:");
         for (int i = 0; i < n; i++) {
-            capacities[i] = scanner.nextInt();
+            bogieNames[i] = scanner.nextLine();
         }
 
-        System.out.print("Before Sorting: ");
-        displayArray(capacities);
+        System.out.println("Before Sorting: " + Arrays.toString(bogieNames));
 
-        // Perform Bubble Sort
-        bubbleSort(capacities);
+        // Sorting using built-in method
+        Arrays.sort(bogieNames);
 
-        System.out.print("After Sorting (Ascending): ");
-        displayArray(capacities);
+        System.out.println("After Sorting (Alphabetical): " + Arrays.toString(bogieNames));
 
         scanner.close();
     }
